@@ -19,6 +19,7 @@ import com.kingdatasolutions.sintraba.R;
 import com.kingdatasolutions.sintraba.SinTrabaApp;
 import com.kingdatasolutions.sintraba.data.SinTrabaDBAdapter;
 import com.kingdatasolutions.sintraba.datamodel.Department;
+import com.kingdatasolutions.sintraba.datamodel.Information;
 import com.kingdatasolutions.sintraba.datamodel.Job;
 import com.kingdatasolutions.sintraba.network.VolleySingleton;
 
@@ -30,17 +31,17 @@ import java.util.List;
  * Created by nestorbonilla on 11/25/17.
  */
 
-public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
+public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder> {
 
-    private List<Job> mData = Collections.emptyList();
+    private List<Information> mData = Collections.emptyList();
     private LayoutInflater mInflater;
     private VolleySingleton mVolleySingleton;
     //private ImageLoader mImageLoader;
     private Context mContext;
-    private ClickListener clickListener;
+    private JobAdapter.ClickListener clickListener;
     private SinTrabaDBAdapter dbAdapter;
 
-    public JobAdapter(Context context) {
+    public InfoAdapter(Context context) {
         this.mContext = context;
         mInflater = LayoutInflater.from(context);
         mVolleySingleton = VolleySingleton.getsInstance();
@@ -48,21 +49,21 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         dbAdapter = new SinTrabaDBAdapter(SinTrabaApp.getAppContext());
     }
 
-    public void setData(ArrayList<Job> data) {
+    public void setData(ArrayList<Information> data) {
         this.mData = data;
         notifyDataSetChanged();
     }
 
     @Override
-    public JobViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.custom_job_item, parent, false);
-        JobViewHolder holder = new JobViewHolder(view);
+    public InfoAdapter.InfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.custom_info_item, parent, false);
+        InfoViewHolder holder = new InfoAdapter.InfoViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(JobViewHolder holder, int position) {
-        Job current = mData.get(position);
+    public void onBindViewHolder(InfoAdapter.InfoViewHolder holder, int position) {
+        Information current = mData.get(position);
         Department department = dbAdapter.getDepartment(current.getIdDepartment());
         String imageAddress = dbAdapter.getPhotoMainImageAddress(current.getId());
         holder.title.setText(current.getName());
@@ -93,7 +94,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         return position == 0;
     }
 
-    public void setClickListener(ClickListener clickListener) {
+    public void setClickListener(JobAdapter.ClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -102,7 +103,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         return mData.size();
     }
 
-    class JobViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class InfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView corner;
         SimpleDraweeView image;
@@ -110,7 +111,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         TextView subtitle;
         CardView cardView;
 
-        public JobViewHolder(View itemView) {
+        public InfoViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             cardView = (CardView) itemView.findViewById(R.id.job_card_view);

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cit_card_view"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="2dp">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Icon image -->
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/cit_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_menu_header" />
+
+        <com.nestorjbonilla.nicaraguaintur.utility.CustomImageView
+            android:id="@+id/cit_corner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitStart"
+            android:src="@drawable/corner_main_default" />
+
+        <!-- Info box -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.5"
+                android:background="@color/colorPrimary"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/info_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/cit_title"
+                    style="@style/ExploreItem.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:text="title" />
+
+                <!-- Subtitle -->
+                <TextView
+                    android:id="@+id/cit_subtitle"
+                    style="@style/ExploreItem.Subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="subtitle" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>

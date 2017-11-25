@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D0F7FC"
+    tools:context="com.kingdatasolutions.sintraba.fragment.MenuFragment">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitEnd"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/menu_background"
+        android:layout_marginBottom="0dp"
+        android:contentDescription="Background"
+        android:gravity="bottom|center_horizontal"
+        android:paddingBottom="0dp"/>
+
+    <LinearLayout
+        android:id="@+id/containter_menu_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_menu_header" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/menu_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/containter_menu_header">
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

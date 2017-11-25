@@ -78,10 +78,10 @@ public class MenuFragment extends Fragment implements MenuAdapter.ClickListener 
     public List<MenuItem> getData() {
         List<MenuItem> data = new ArrayList<>();
         int[] icons = {
-                R.drawable.ic_menu_job,
-                R.drawable.ic_menu_profile,
-                R.drawable.ic_menu_information,
-                R.drawable.ic_menu_setting
+                R.drawable.ic_menu_about,
+                R.drawable.ic_menu_about,
+                R.drawable.ic_menu_about,
+                R.drawable.ic_menu_about
         };
         String[] titles = {
                 getString(R.string.menu_job),

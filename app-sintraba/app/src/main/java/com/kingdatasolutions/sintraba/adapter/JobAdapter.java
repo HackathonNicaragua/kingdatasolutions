@@ -64,13 +64,10 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     public void onBindViewHolder(JobViewHolder holder, int position) {
         Job current = mData.get(position);
         Department department = dbAdapter.getDepartment(current.getIdDepartment());
-        String imageAddress = dbAdapter.getPhotoMainImageAddress(current.getId());
+        //String imageAddress = dbAdapter.getPhotoMainImageAddress(current.getId());
+        String imageAddress = "";
         holder.title.setText(current.getName());
-        if ("es".equals(SinTrabaApp.sDefSystemLanguage)) {
-            holder.subtitle.setText(department.getName());
-        } else {
-            holder.subtitle.setText(department.getName());
-        }
+        holder.subtitle.setText(department.getName());
 
         if (imageAddress.isEmpty()) {
             holder.corner.setVisibility(View.VISIBLE);

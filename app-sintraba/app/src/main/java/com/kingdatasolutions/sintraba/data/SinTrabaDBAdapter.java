@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.kingdatasolutions.sintraba.SinTrabaApp;
 import com.kingdatasolutions.sintraba.datamodel.Department;
+import com.kingdatasolutions.sintraba.datamodel.JobCategory;
+import com.kingdatasolutions.sintraba.datamodel.Setting;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -39,9 +41,8 @@ public class SinTrabaDBAdapter {
             statement.clearBindings();
             statement.bindLong(1, item.getId());
             statement.bindLong(2, item.getIdOrder());
-            statement.bindString(3, item.getNameSpa());
-            statement.bindString(4, item.getNameEng());
-            statement.bindString(5, item.getImageAddress());
+            statement.bindString(3, item.getName());
+            statement.bindString(4, item.getImageAddress());
             statement.execute();
         }
         mDatabase.setTransactionSuccessful();
@@ -155,7 +156,201 @@ public class SinTrabaDBAdapter {
         int count = db.delete(SinTrabaDBHelper.TABLE_DEPARTMENT, null, null);
         return count;
     }
+
+    //------------------------------->JOB CATEGORY
+
+    public void fillJobCategory(ArrayList<JobCategory> data) {
+        deleteJobCategory();
+        String sql = "INSERT INTO " + SinTrabaDBHelper.TABLE_JOB_CATEGORY + " VALUES (?,?,?,?,?);";
+        SQLiteStatement statement = mDatabase.compileStatement(sql);
+        mDatabase.beginTransaction();
+        for (int i = 0; i < data.size(); i++) {
+            JobCategory item = data.get(i);
+            statement.clearBindings();
+            statement.bindLong(1, item.getId());
+            statement.bindString(2, item.getName());
+            statement.bindString(3, item.getImageAddress());
+            statement.execute();
+        }
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
+    }
+
+    public ArrayList<JobCategory> getJobCategoryList() {
+        ArrayList<JobCategory> listItem = new ArrayList<>();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        String[] columns = {
+                SinTrabaDBHelper.JOB_CATEGORY_ID,
+                SinTrabaDBHelper.JOB_CATEGORY_NAME,
+                SinTrabaDBHelper.JOB_CATEGORY_IMAGE_ADDRESS
+        };
+
+        Cursor cursor = db.query(SinTrabaDBHelper.TABLE_JOB_CATEGORY, columns, null, null, null, null, SinTrabaDBHelper.JOB_CATEGORY_ID + " ASC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                JobCategory item = new JobCategory();
+                item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_CATEGORY_ID)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_CATEGORY_NAME)));
+                item.setImageAddress(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_CATEGORY_IMAGE_ADDRESS)));
+                listItem.add(item);
+            }
+            while (cursor.moveToNext());
+        }
+        return listItem;
+    }
+
+    public ArrayList<String> getJobCategoryStringList() {
+        ArrayList<String> listItem = new ArrayList<>();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        String[] columns = {
+                SinTrabaDBHelper.JOB_CATEGORY_ID,
+                SinTrabaDBHelper.JOB_CATEGORY_NAME,
+                SinTrabaDBHelper.JOB_CATEGORY_IMAGE_ADDRESS
+        };
+        String orderBy = SinTrabaDBHelper.JOB_CATEGORY_ID + " ASC";
+
+        Cursor cursor = db.query(SinTrabaDBHelper.TABLE_JOB_CATEGORY, columns, null, null, null, null, orderBy);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    listItem.add(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_CATEGORY_NAME)));
+                }
+                while (cursor.moveToNext());
+            }
+        return listItem;
+    }
+
+    public JobCategory getJobCategory(int id) {
+        JobCategory itemDB = new JobCategory();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        String[] columns = {
+                SinTrabaDBHelper.JOB_CATEGORY_ID,
+                SinTrabaDBHelper.JOB_CATEGORY_NAME,
+                SinTrabaDBHelper.JOB_CATEGORY_IMAGE_ADDRESS
+        };
+        Cursor cursor = db.query(SinTrabaDBHelper.TABLE_JOB_CATEGORY, columns, SinTrabaDBHelper.JOB_CATEGORY_ID + " = '" + id + "'", null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                JobCategory item = new JobCategory();
+                item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_CATEGORY_ID)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_CATEGORY_NAME)));
+                item.setImageAddress(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_CATEGORY_IMAGE_ADDRESS)));
+                itemDB = item;
+            }
+            while (cursor.moveToNext());
+        }
+        return itemDB;
+    }
+
+    public int deleteJobCategory() {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        int count = db.delete(SinTrabaDBHelper.TABLE_JOB_CATEGORY, null, null);
+        return count;
+    }
     
+    //------------------------------->SETTING
+
+    public void createSetting(Setting item) {
+        String sql = "INSERT INTO " + SinTrabaDBHelper.TABLE_SETTING + " VALUES (?,?,?,?);";
+        SQLiteStatement statement = mDatabase.compileStatement(sql);
+        mDatabase.beginTransaction();
+        statement.clearBindings();
+        statement.bindLong(2, item.getIdOrder());
+        statement.bindString(3, item.getName());
+        statement.bindString(4, item.getValue());
+        statement.execute();
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
+    }
+
+
+    public ArrayList<Setting> getSettingList() {
+        ArrayList<Setting> listItem = new ArrayList<>();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        String[] columns = {
+                SinTrabaDBHelper.SETTING_ID,
+                SinTrabaDBHelper.SETTING_ID_ORDER,
+                SinTrabaDBHelper.SETTING_NAME,
+                SinTrabaDBHelper.SETTING_VALUE
+        };
+
+        Cursor cursor = db.query(SinTrabaDBHelper.TABLE_SETTING, columns, null, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Setting item = new Setting();
+                item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_ID)));
+                item.setIdOrder(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_ID_ORDER)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_NAME)));
+                item.setValue(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_VALUE)));
+                listItem.add(item);
+            }
+            while (cursor.moveToNext());
+        }
+        return listItem;
+    }
+
+    public Setting getSetting(int id) {
+        Setting itemDB = new Setting();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        String[] columns = {
+                SinTrabaDBHelper.SETTING_ID,
+                SinTrabaDBHelper.SETTING_ID_ORDER,
+                SinTrabaDBHelper.SETTING_NAME,
+                SinTrabaDBHelper.SETTING_VALUE
+        };
+        Cursor cursor = db.query(SinTrabaDBHelper.TABLE_SETTING, columns, SinTrabaDBHelper.SETTING_ID + " = '" + id + "'", null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Setting item = new Setting();
+                item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_ID)));
+                item.setIdOrder(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_ID_ORDER)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_NAME)));
+                item.setValue(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_VALUE)));
+                itemDB = item;
+            }
+            while (cursor.moveToNext());
+        }
+        return itemDB;
+    }
+
+    public Setting getSetting(String name) {
+        Setting itemDB = new Setting();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        String[] columns = {
+                SinTrabaDBHelper.SETTING_ID,
+                SinTrabaDBHelper.SETTING_ID_ORDER,
+                SinTrabaDBHelper.SETTING_NAME,
+                SinTrabaDBHelper.SETTING_VALUE
+        };
+        Cursor cursor = db.query(SinTrabaDBHelper.TABLE_SETTING, columns, SinTrabaDBHelper.SETTING_NAME + " = '" + name + "'", null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Setting item = new Setting();
+                item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_ID)));
+                item.setIdOrder(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_ID_ORDER)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_NAME)));
+                item.setValue(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.SETTING_VALUE)));
+                itemDB = item;
+            }
+            while (cursor.moveToNext());
+        }
+        return itemDB;
+    }
+
+    public int updateSetting(String name, String newValue) {
+        Setting itemDB = new Setting();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SinTrabaDBHelper.SETTING_VALUE, newValue);
+        String[] whereArgs = { name };
+        int result = db.update(SinTrabaDBHelper.TABLE_SETTING, contentValues, SinTrabaDBHelper.SETTING_NAME + " =? ", whereArgs);
+        return result;
+    }
+
+    public int deleteSetting() {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        int count = db.delete(SinTrabaDBHelper.TABLE_SETTING, null, null);
+        return count;
+    }
 }
 
 

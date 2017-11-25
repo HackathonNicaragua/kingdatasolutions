@@ -10,7 +10,9 @@ import android.os.Parcelable;
 public class Job implements Parcelable {
 
     private int id;
-    private int id_municipality;
+    private int id_category;
+    private int id_department;
+    private int id_company;
     private String name;
     private String description;
 
@@ -20,17 +22,23 @@ public class Job implements Parcelable {
 
     public Job(Parcel input) {
         id = input.readInt();
-        id_municipality = input.readInt();
+        id_category = input.readInt();
+        id_department = input.readInt();
+        id_company = input.readInt();
         name = input.readString();
         description = input.readString();
     }
 
     public Job(int id,
-               int id_municipality,
+               int id_category,
+               int id_department,
+               int id_company,
                String name,
                String description) {
         this.id = id;
-        this.id_municipality = id_municipality;
+        this.id_category = id_category;
+        this.id_department = id_department;
+        this.id_company = id_company;
         this.name = name;
         this.description = description;
     }
@@ -43,12 +51,28 @@ public class Job implements Parcelable {
         this.id = id;
     }
 
-    public int getIdMunicipality() {
-        return id_municipality;
+    public int getIdCategory() {
+        return id_category;
     }
 
-    public void setIdMunicipality(int id_municipality) {
-        this.id_municipality = id_municipality;
+    public void setIdCategory(int id_category) {
+        this.id_category = id_category;
+    }
+
+    public int getIdDepartment() {
+        return id_department;
+    }
+
+    public void setIdDepartment(int id_department) {
+        this.id_department = id_department;
+    }
+
+    public int getIdCompany() {
+        return id_company;
+    }
+
+    public void setIdCompany(int id_company) {
+        this.id_company = id_company;
     }
 
     public String getName() {
@@ -75,7 +99,9 @@ public class Job implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(id);
-        parcel.writeInt(id_municipality);
+        parcel.writeInt(id_category);
+        parcel.writeInt(id_department);
+        parcel.writeInt(id_company);
         parcel.writeString(name);
         parcel.writeString(description);
     }

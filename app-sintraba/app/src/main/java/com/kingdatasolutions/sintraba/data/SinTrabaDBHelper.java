@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class SinTrabaDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "sintraba";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_JOB = "job";
     public static final String JOB_ID = "_id";
@@ -50,6 +50,28 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             DEPARTMENT_IMAGE_ADDRESS + " VARCHAR(300))";
     private static final String DROP_DEPARTMENT = "DROP TABLE  IF EXISTS " + TABLE_DEPARTMENT;
 
+    public static final String TABLE_JOB_CATEGORY = "category";
+    public static final String JOB_CATEGORY_ID = "_id";
+    public static final String JOB_CATEGORY_NAME = "name";
+    public static final String JOB_CATEGORY_IMAGE_ADDRESS = "image_address";
+    private static final String CREATE_JOB_CATEGORY = "CREATE TABLE " + TABLE_JOB_CATEGORY + " ( " +
+            JOB_CATEGORY_ID + " INTEGER PRIMARY KEY, " +
+            JOB_CATEGORY_NAME + " VARCHAR(255), " +
+            JOB_CATEGORY_IMAGE_ADDRESS + " VARCHAR(255)) ";
+    private static final String DROP_JOB_CATEGORY = "DROP TABLE  IF EXISTS " + TABLE_JOB_CATEGORY;
+
+    public static final String TABLE_SETTING = "setting";
+    public static final String SETTING_ID = "_id";
+    public static final String SETTING_ID_ORDER = "id_order";
+    public static final String SETTING_NAME = "name";
+    public static final String SETTING_VALUE = "value";
+    private static final String CREATE_SETTING = "CREATE TABLE " + TABLE_SETTING + " ( " +
+            SETTING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            SETTING_ID_ORDER + " INTEGER, " +
+            SETTING_NAME + " VARCHAR(255), " +
+            SETTING_VALUE + " VARCHAR(255))";
+    private static final String DROP_SETTING = "DROP TABLE  IF EXISTS " + TABLE_SETTING;
+
     private Context context;
 
     public SinTrabaDBHelper(Context context) {
@@ -63,6 +85,8 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_JOB);
             db.execSQL(CREATE_JOB_SKILL);
             db.execSQL(CREATE_DEPARTMENT);
+            db.execSQL(CREATE_JOB_CATEGORY);
+            db.execSQL(CREATE_SETTING);
         } catch (SQLException e) {
             Toast.makeText(context, "" + e, Toast.LENGTH_LONG).show();
         }
@@ -74,6 +98,8 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             db.execSQL(DROP_JOB);
             db.execSQL(DROP_JOB_SKILL);
             db.execSQL(DROP_DEPARTMENT);
+            db.execSQL(DROP_JOB_CATEGORY);
+            db.execSQL(DROP_SETTING);
             onCreate(db);
         } catch (SQLException e) {
             Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.kingdatasolutions.sintraba.data.SinTrabaDBHelper;
 
 import java.util.Locale;

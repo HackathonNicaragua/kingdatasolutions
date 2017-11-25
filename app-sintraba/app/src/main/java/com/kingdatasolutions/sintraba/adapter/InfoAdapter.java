@@ -65,13 +65,9 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
     public void onBindViewHolder(InfoAdapter.InfoViewHolder holder, int position) {
         Information current = mData.get(position);
         Department department = dbAdapter.getDepartment(current.getIdDepartment());
-        String imageAddress = dbAdapter.getPhotoMainImageAddress(current.getId());
-        holder.title.setText(current.getName());
-        if ("es".equals(SinTrabaApp.sDefSystemLanguage)) {
-            holder.subtitle.setText(department.getName());
-        } else {
-            holder.subtitle.setText(department.getName());
-        }
+        String imageAddress = current.getImageAddress();
+        holder.title.setText(current.getTitle());
+        holder.subtitle.setText(department.getName());
 
         if (imageAddress.isEmpty()) {
             holder.corner.setVisibility(View.VISIBLE);

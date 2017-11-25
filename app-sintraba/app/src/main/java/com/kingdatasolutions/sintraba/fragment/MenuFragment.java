@@ -17,8 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kingdatasolutions.sintraba.MainActivity;
 import com.kingdatasolutions.sintraba.R;
 import com.kingdatasolutions.sintraba.SinTrabaApp;
+import com.kingdatasolutions.sintraba.activity.InformationActivity;
+import com.kingdatasolutions.sintraba.activity.ProfileActivity;
+import com.kingdatasolutions.sintraba.activity.SettingActivity;
 import com.kingdatasolutions.sintraba.adapter.MenuAdapter;
 import com.kingdatasolutions.sintraba.data.SinTrabaDBAdapter;
 import com.kingdatasolutions.sintraba.datamodel.MenuItem;
@@ -74,21 +78,15 @@ public class MenuFragment extends Fragment implements MenuAdapter.ClickListener 
     public List<MenuItem> getData() {
         List<MenuItem> data = new ArrayList<>();
         int[] icons = {
-                R.drawable.ic_menu_favorite,
-                R.drawable.ic_menu_map,
-                R.drawable.ic_menu_destination,
-                R.drawable.ic_menu_directory,
-                R.drawable.ic_menu_national_map,
-                R.drawable.ic_menu_cit,
+                R.drawable.ic_menu_job,
+                R.drawable.ic_menu_profile,
+                R.drawable.ic_menu_information,
                 R.drawable.ic_menu_setting
         };
         String[] titles = {
-                getString(R.string.menu_favorite),
-                getString(R.string.menu_map),
-                getString(R.string.menu_destination),
-                getString(R.string.menu_directory),
-                getString(R.string.menu_national_map),
-                getString(R.string.menu_cit),
+                getString(R.string.menu_job),
+                getString(R.string.menu_profile),
+                getString(R.string.menu_information),
                 getString(R.string.menu_setting)
         };
         for (int i = 0; i < icons.length && i < titles.length; i++) {
@@ -149,7 +147,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.ClickListener 
 
         switch (position) {
             case 0:
-                startActivity(new Intent(getActivity(), JobActivity.class));
+                startActivity(new Intent(getActivity(), MainActivity.class));
                 if (!(getActivity().getClass().getSimpleName().equals("MainActivity"))) {
                     getActivity().finish();
                 } else {
@@ -157,7 +155,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.ClickListener 
                 }
                 break;
             case 1:
-                startActivity(new Intent(getActivity(), MapActivity.class));
+                startActivity(new Intent(getActivity(), InformationActivity.class));
                 if (!(getActivity().getClass().getSimpleName().equals("MainActivity"))) {
                     getActivity().finish();
                 } else {
@@ -172,7 +170,7 @@ public class MenuFragment extends Fragment implements MenuAdapter.ClickListener 
                 }
                 break;
             case 3:
-                startActivity(new Intent(getActivity(), ActivityActivity.class));
+                startActivity(new Intent(getActivity(), ProfileActivity.class));
                 if (!(getActivity().getClass().getSimpleName().equals("MainActivity"))) {
                     getActivity().finish();
                 } else {
@@ -180,33 +178,6 @@ public class MenuFragment extends Fragment implements MenuAdapter.ClickListener 
                 }
                 break;
             case 4:
-                String urlString="http://www.sintraba.com";
-                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setPackage("com.android.chrome");
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException ex) {
-                    // Chrome browser presumably not installed so allow user to choose instead
-                    intent.setPackage(null);
-                    startActivity(intent);
-                }
-                //startActivity(new Intent(getActivity(), NationalMapActivity.class));
-                //if (!(getActivity().getClass().getSimpleName().equals("MainActivity"))) {
-                //    getActivity().finish();
-                //} else {
-                //    mDrawerLayout.closeDrawer(mContainerView);
-                //}
-                break;
-            case 5:
-                startActivity(new Intent(getActivity(), CitActivity.class));
-                if (!(getActivity().getClass().getSimpleName().equals("MainActivity"))) {
-                    getActivity().finish();
-                } else {
-                    mDrawerLayout.closeDrawer(mContainerView);
-                }
-                break;
-            case 6:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 if (!(getActivity().getClass().getSimpleName().equals("MainActivity"))) {
                     getActivity().finish();

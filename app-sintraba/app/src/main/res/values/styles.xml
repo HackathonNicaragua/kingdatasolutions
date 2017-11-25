@@ -1,11 +1,54 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorHighlight</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+        <item name="android:panelFullBackground">@drawable/ic_menu_background</item>
+        <item name="photoItemForeground">?android:selectableItemBackground</item>
+    </style>
+
+    <style name="ExploreItem.Category" parent="">
+        <item name="android:textColor">@color/body_text_2_inverse</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="ExploreItem.Title" parent="">
+        <item name="android:textColor">#fff</item>
+        <!-- a bit brighter than body_text_1_inverse to stand out more -->
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="ExploreItem.Subtitle" parent="">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+
+    <style name="Widget.CardContent" parent="android:Widget">
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="Nicaragua.LegendValue" parent="">
+        <item name="android:layout_width">8dp</item>
+        <item name="android:layout_height">8dp</item>
     </style>
 
 </resources>

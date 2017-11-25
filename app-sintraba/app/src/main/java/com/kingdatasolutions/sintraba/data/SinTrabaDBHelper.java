@@ -38,6 +38,18 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             JOB_SKILL_PRIORITY + " INTEGER) ";
     private static final String DROP_JOB_SKILL = "DROP TABLE  IF EXISTS " + TABLE_JOB_SKILL;
 
+    public static final String TABLE_DEPARTMENT = "department";
+    public static final String DEPARTMENT_ID = "_id";
+    public static final String DEPARTMENT_ID_ORDER = "id_order";
+    public static final String DEPARTMENT_NAME = "name";
+    public static final String DEPARTMENT_IMAGE_ADDRESS = "image_address";
+    private static final String CREATE_DEPARTMENT = "CREATE TABLE " + TABLE_DEPARTMENT + " ( " +
+            DEPARTMENT_ID + " INTEGER PRIMARY KEY, " +
+            DEPARTMENT_ID_ORDER + " INTEGER, " +
+            DEPARTMENT_NAME + " VARCHAR(50), " +
+            DEPARTMENT_IMAGE_ADDRESS + " VARCHAR(300))";
+    private static final String DROP_DEPARTMENT = "DROP TABLE  IF EXISTS " + TABLE_DEPARTMENT;
+
     private Context context;
 
     public SinTrabaDBHelper(Context context) {
@@ -50,6 +62,7 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
         try {
             db.execSQL(CREATE_JOB);
             db.execSQL(CREATE_JOB_SKILL);
+            db.execSQL(CREATE_DEPARTMENT);
         } catch (SQLException e) {
             Toast.makeText(context, "" + e, Toast.LENGTH_LONG).show();
         }
@@ -60,6 +73,7 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
         try {
             db.execSQL(DROP_JOB);
             db.execSQL(DROP_JOB_SKILL);
+            db.execSQL(DROP_DEPARTMENT);
             onCreate(db);
         } catch (SQLException e) {
             Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();

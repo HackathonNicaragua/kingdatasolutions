@@ -168,6 +168,34 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
         //db.endTransaction();
     }
 
+    public void createDefaultJobs(SQLiteDatabase db) {
+        String sql = "INSERT INTO " + TABLE_JOB + " VALUES (?,?,?,?,?,?);";
+
+        SQLiteStatement statement = db.compileStatement(sql);
+        //db.beginTransaction();
+        for (int i = 0; i < 2; i++) {
+            statement.clearBindings();
+            statement.bindLong(1, i);
+            if (i == 0) {
+                statement.bindLong(2, 1);
+                statement.bindLong(3, 1);
+                statement.bindLong(4, 1);
+                statement.bindString(5, "Técnico electricista");
+                statement.bindString(6, "Se busca técnico electricista...");
+            } else if (i == 1) {
+                statement.bindLong(2, 1);
+                statement.bindLong(3, 1);
+                statement.bindLong(4, 1);
+                statement.bindString(5, "Técnico mecánico");
+                statement.bindString(6, "Se busca técnico mecánico...");
+            }
+            statement.execute();
+        }
+
+        //db.setTransactionSuccessful();
+        //db.endTransaction();
+    }
+
     private Context context;
 
     public SinTrabaDBHelper(Context context) {
@@ -186,6 +214,7 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             createDefaultSettings(db);
             createDefaultCategory(db);
             createDefaultDepartment(db);
+            createDefaultJobs(db);
         } catch (SQLException e) {
             Toast.makeText(context, "" + e, Toast.LENGTH_LONG).show();
         }

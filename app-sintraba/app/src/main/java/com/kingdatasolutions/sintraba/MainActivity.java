@@ -39,6 +39,7 @@ import com.kingdatasolutions.sintraba.datamodel.Job;
 import com.kingdatasolutions.sintraba.datamodel.JobCategory;
 import com.kingdatasolutions.sintraba.datamodel.Setting;
 import com.kingdatasolutions.sintraba.fragment.MenuFragment;
+import com.kingdatasolutions.sintraba.logging.L;
 import com.kingdatasolutions.sintraba.task.TaskLoadGeneral;
 
 import java.util.ArrayList;
@@ -381,15 +382,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void itemClicked(View view, int position) {
         Job job;
+        L.m("JOB POSITION SELECTED " + position);
         if (mSearchViewActive == true) {
             job = mListJobFilter.get(position);
         } else {
             job = mListJob.get(position);
         }
 
-        Intent destinationDetail = new Intent(this, JobDetailActivity.class);
-        destinationDetail.putExtra("ID_JOB", job.getId());
-        startActivity(destinationDetail);
+        Intent jobDetail = new Intent(this, JobDetailActivity.class);
+        jobDetail.putExtra("ID_JOB", job.getId());
+        L.m("JOB ID TO SEND " + job.getId());
+        startActivity(jobDetail);
     }
 
     @Override

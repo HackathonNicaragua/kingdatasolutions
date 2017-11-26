@@ -12,6 +12,7 @@ import com.kingdatasolutions.sintraba.datamodel.Department;
 import com.kingdatasolutions.sintraba.datamodel.Job;
 import com.kingdatasolutions.sintraba.datamodel.JobCategory;
 import com.kingdatasolutions.sintraba.datamodel.Setting;
+import com.kingdatasolutions.sintraba.logging.L;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -183,6 +184,7 @@ public class SinTrabaDBAdapter {
 
     public ArrayList<Job> getJobList() {
 
+               /*
         ArrayList<Job> listItem = new ArrayList<>();
         Job item = new Job();
         for (int i = 0; i < 3; i++) {
@@ -212,7 +214,8 @@ public class SinTrabaDBAdapter {
         }
 
         return  listItem;
-        /*
+        */
+
         ArrayList<Job> listItem = new ArrayList<>();
         SQLiteDatabase db = mHelper.getWritableDatabase();
         String[] columns = {
@@ -239,7 +242,37 @@ public class SinTrabaDBAdapter {
             while (cursor.moveToNext());
         }
         return listItem;
-        */
+    }
+
+    public Job getJob(int id) {
+        Job itemDB = new Job();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        String[] columns = {
+                SinTrabaDBHelper.JOB_ID,
+                SinTrabaDBHelper.JOB_ID_CATEGORY,
+                SinTrabaDBHelper.JOB_ID_DEPARTMENT,
+                SinTrabaDBHelper.JOB_ID_COMPANY,
+                SinTrabaDBHelper.JOB_NAME,
+                SinTrabaDBHelper.JOB_DESCRIPTION
+        };
+        L.m("accessing getjob");
+        Cursor cursor = db.query(SinTrabaDBHelper.TABLE_JOB, columns, SinTrabaDBHelper.JOB_ID + " = '" + id + "'", null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Job item = new Job();
+                item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_ID)));
+                item.setIdCategory(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_ID_CATEGORY)));
+                item.setIdDepartment(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_ID_DEPARTMENT)));
+                item.setIdCompany(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_ID_COMPANY)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_NAME)));
+                item.setDescription(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_DESCRIPTION)));
+                itemDB = item;
+                L.m("before while");
+            }
+            while (cursor.moveToNext());
+            L.m("after while");
+        }
+        return itemDB;
     }
 
     //------------------------------->JOB CATEGORY

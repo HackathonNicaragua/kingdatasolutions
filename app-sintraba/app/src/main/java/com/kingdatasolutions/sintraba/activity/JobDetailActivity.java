@@ -35,6 +35,7 @@ import com.kingdatasolutions.sintraba.datamodel.Information;
 import com.kingdatasolutions.sintraba.datamodel.Job;
 import com.kingdatasolutions.sintraba.datamodel.Photo;
 import com.kingdatasolutions.sintraba.network.VolleySingleton;
+import com.kingdatasolutions.sintraba.utility.CustomGridLayoutManager;
 import com.kingdatasolutions.sintraba.utility.CustomLinearLayoutManager;
 
 import java.util.ArrayList;
@@ -43,15 +44,14 @@ import java.util.ArrayList;
  * Created by nestorbonilla on 11/25/17.
  */
 
-public class JobDetailActivity extends AppCompatActivity implements CertificationAdapter.ClickListener, PhotoAdapter.ClickListener {
+public class JobDetailActivity extends AppCompatActivity implements CertificationAdapter.ClickListener { //, PhotoAdapter.ClickListener {
 
     private Toolbar mToolbar;
 
     //The key used to store arraylist of destination objects to and from parcelable
     private static final String STATE_INFORMATION = "state_information";
 
-    private ArrayList<Certification> mListInformation = new ArrayList<>();
-    private ArrayList<Photo> mListPhoto = new ArrayList<>();
+    private ArrayList<Certification> mListCertification = new ArrayList<>();
     private ImageView mMainImage;
     private VolleySingleton mVolleySingleton;
     private ImageLoader mImageLoader;
@@ -59,19 +59,14 @@ public class JobDetailActivity extends AppCompatActivity implements Certificatio
     private Department mDepartment;
     private SinTrabaDBAdapter dbAdapter;
     private RecyclerView mRecyclerView;
-    private RecyclerView mPhotoRecyclerView;
     private CertificationAdapter mAdapter;
     private WebView webView;
-    private CardView mCitDescription;
-    private CardView mCitInformation;
-    private CardView mCitMap;
-    private CardView mCitPhoto;
-    private ImageView mMap;
+    private CardView mCertification;
+
     //private Information mInformationDes;
     //private Information mInformationMap;
     private ShareActionProvider mShareActionProvider;
-    //private Favorite mFavorite;
-    //private Information currentInformation;
+    private Certification currentCertification;
     private String imageAddress = "";
     private PhotoAdapter mPhotoAdapter;
 
@@ -84,103 +79,67 @@ public class JobDetailActivity extends AppCompatActivity implements Certificatio
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mMainImage = (ImageView) findViewById(R.id.cit_detail_image_paralax);
-        mMap = (ImageView) findViewById(R.id.cit_detail_map);
-        mCitDescription = (CardView) findViewById(R.id.cit_description);
-        mCitInformation = (CardView) findViewById(R.id.cit_information);
-        mCitMap = (CardView) findViewById(R.id.cit_map);
-        mCitPhoto = (CardView) findViewById(R.id.cit_photo);
+        mMainImage = (ImageView) findViewById(R.id.job_detail_image_paralax);
+        mCertification = (CardView) findViewById(R.id.job_information);
         mVolleySingleton = VolleySingleton.getsInstance();
         mImageLoader = mVolleySingleton.getImageLoader();
         dbAdapter = new SinTrabaDBAdapter(SinTrabaApp.getAppContext());
 
-        Intent citActivity = getIntent();
-        mJob = dbAdapter.getJob(citActivity.getExtras().getInt("ID_CIT"));
-        mDepartment = dbAdapter.getDepartment(mCit.getIdDepartment());
-        //mFavorite = dbAdapter.getFavorite(mCit.getId(), Utility.getCitClassification());
-        mListPhoto = dbAdapter.getPhotoList(Utility.getJobCategory(), mJob.getId());
+        Intent jobActivity = getIntent();
+        mJob = dbAdapter.getJob(jobActivity.getExtras().getInt("ID_JOB"));
+        mDepartment = dbAdapter.getDepartment(mJob.getIdDepartment());
 
-        mPhotoRecyclerView = (RecyclerView) findViewById(R.id.cit_photo_recycler);
-        mPhotoAdapter = new PhotoAdapter(SinTrabaApp.getAppContext());
-        mPhotoAdapter.setClickListener(this);
-        mPhotoRecyclerView.setAdapter(mPhotoAdapter);
-        mPhotoRecyclerView.setLayoutManager(new CustomGridLayoutManager(this, columnsQuantity()));
+        mDepartment = dbAdapter.getDepartment(mJob.getIdDepartment());
+        //mListCertification = dbAdapter.getPhotoList(Utility.getJobCategory(), mJob.getId());
+
 
         TextView title = (TextView) findViewById(R.id.job_detail_title);
         TextView subtitle = (TextView) findViewById(R.id.job_detail_subtitle);
-        webView = (WebView) findViewById(R.id.job_detail_web_view);
         title.setText(mJob.getName());
-
         subtitle.setText(mDepartment.getName());
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.job_detail_information_list);
-        mAdapter = new InformationAdapter(SinTrabaApp.getAppContext());
+        /*
+        mRecyclerView = (RecyclerView) findViewById(R.id.job_detail_certification_list);
+        mAdapter = new CertificationAdapter(SinTrabaApp.getAppContext());
         mAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
         CustomLinearLayoutManager layout = new CustomLinearLayoutManager(SinTrabaApp.getAppContext());
         mRecyclerView.setLayoutManager(layout);
         if (savedInstanceState != null) {
-            mListInformation = savedInstanceState.getParcelableArrayList(STATE_INFORMATION);
+            mListCertification = savedInstanceState.getParcelableArrayList(STATE_INFORMATION);
         } else {
-            mListInformation = dbAdapter.getInformationListExceptDescription(Utility.getCitClassification(), mCit.getId());
+            //mListInformation = dbAdapter.getInformationListExceptDescription(Utility.getCitClassification(), mCit.getId());
         }
 
-        mAdapter.setData(mListInformation);
-        mPhotoAdapter.setData(mListPhoto);
+        mAdapter.setData(mListCertification);
 
-        mInformationDes = dbAdapter.getInformation(Utility.getCitClassification(), mCit.getId(), Utility.getInfoTypeInformation());
+        //mInformationDes = dbAdapter.getInformation(Utility.getCitClassification(), mCit.getId(), Utility.getInfoTypeInformation());
 
-        if (mInformationDes.getId() > 0 && mInformationDes.getInfoValue() != null && !mInformationDes.getInfoValue().isEmpty()) {
+        //mInformationDes = mJob.getDescription();
+
+        //if (mInformationDes.getId() > 0 && mInformationDes.getInfoValue() != null && !mInformationDes.getInfoValue().isEmpty()) {
             String youtContentStr = "";
 
-            if ("es".equals(SinTrabaApp.sDefSystemLanguage)) {
+        //    if ("es".equals(SinTrabaApp.sDefSystemLanguage)) {
                 youtContentStr = String.valueOf(Html
                         .fromHtml("<![CDATA[<body style=\"text-align:justify;background: #F9F9F9;color:#999;font-size: smaller; \">"
-                                + mInformationDes.getInfoValue()
+                                + mJob.getDescription()
                                 + "</body>]]>"));
-            } else {
-                youtContentStr = String.valueOf(Html
-                        .fromHtml("<![CDATA[<body style=\"text-align:justify;background: #F9F9F9;color:#999;font-size: smaller; \">"
-                                + mInformationDes.getInfoValueEng()
-                                + "</body>]]>"));
-            }
+        //    } else {
+        //        youtContentStr = String.valueOf(Html
+        //                .fromHtml("<![CDATA[<body style=\"text-align:justify;background: #F9F9F9;color:#999;font-size: smaller; \">"
+        //                        + mInformationDes.getInfoValueEng()
+        //                        + "</body>]]>"));
+        //    }
 
             WebSettings settings = webView.getSettings();
             settings.setDefaultTextEncodingName("utf-8");
             webView.loadData(youtContentStr, "text/html; charset=UTF-8", null);
-        } else {
-            mCitDescription.setVisibility(View.GONE);
-        }
-
-        if (mListInformation.size() > 0) {
-            mCitInformation.setVisibility(View.VISIBLE);
-        } else {
-            mCitInformation.setVisibility(View.GONE);
-        }
-
-        mInformationMap = dbAdapter.getInformation(Utility.getDirectoryClassification(), mCit.getId(), Utility.getInfoTypeMap());
-        if (mInformationMap.getId() > 0 && !mInformationMap.getInfoValue().isEmpty()) {
-            String location = mInformationMap.getInfoValue();
-            double latitude = Double.parseDouble(location.split(",")[0]);
-            double longitude = Double.parseDouble(location.split(",")[1]);
-            loadImages(EndPoints.getRequestUrlDestinationDetailMapImage(latitude, longitude), mMap);
-        } else {
-            mCitMap.setVisibility(View.GONE);
-        }
-
-        if (mListPhoto.size() > 0) {
-            Photo photo = mListPhoto.get(0);
-            imageAddress = photo.getImageAddress();
-            if (mListPhoto.size() > 1) {
-                mCitPhoto.setVisibility(View.VISIBLE);
-            } else {
-                mCitPhoto.setVisibility(View.GONE);
-            }
-        } else {
-            mCitPhoto.setVisibility(View.GONE);
-        }
-
+        //} else {
+        //    mCitDescription.setVisibility(View.GONE);
+        //}
+*/
     }
 
     protected int columnsQuantity() {
@@ -210,13 +169,14 @@ public class JobDetailActivity extends AppCompatActivity implements Certificatio
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_job_detail, menu);
-        MenuItem shareItem = menu.findItem(R.id.job_detail_action_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-        setShareIntent();
+        //getMenuInflater().inflate(R.menu.menu_job_detail, menu);
+        //MenuItem shareItem = menu.findItem(R.id.job_detail_action_share);
+        //mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        //setShareIntent();
         return true;
     }
 
+    /*
     private void setShareIntent() {
         if (mShareActionProvider != null) {
 
@@ -253,6 +213,7 @@ public class JobDetailActivity extends AppCompatActivity implements Certificatio
             mShareActionProvider.setShareIntent(shareIntent);
         }
     }
+    */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -274,12 +235,13 @@ public class JobDetailActivity extends AppCompatActivity implements Certificatio
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //save the destination list to a parcelable prior to rotation or configuration change
-        outState.putParcelableArrayList(STATE_INFORMATION, mListInformation);
+        //outState.putParcelableArrayList(STATE_INFORMATION, mListInformation);
     }
 
     @Override
     public void itemClicked(View view, int idClassification, int idParent, int idType) {
-        currentInformation = dbAdapter.getInformation(idClassification, idParent, idType);
+        /*
+        currentCertification = dbAdapter.getInformation(idClassification, idParent, idType);
         String webSite = "";
         if (idType == 4) {
             if (currentInformation.getInfoValue().startsWith("http")) {
@@ -325,12 +287,14 @@ public class JobDetailActivity extends AppCompatActivity implements Certificatio
             default:
                 break;
         }
+        */
     }
 
+    /*
     @Override
     public void itemClicked(View view, int idPhoto) {
         Intent photoActivity = new Intent(this, PhotoActivity.class);
         photoActivity.putExtra("ID_PHOTO", idPhoto);
         startActivity(photoActivity);
-    }
+    }*/
 }

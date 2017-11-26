@@ -65,7 +65,7 @@ public class SinTrabaDBAdapter {
                 Department item = new Department();
                 item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_ID)));
                 item.setIdOrder(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_ID_ORDER)));
-                item.setNameSpa(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_NAME)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_NAME)));
                 item.setImageAddress(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_IMAGE_ADDRESS)));
                 listItem.add(item);
             }
@@ -110,7 +110,7 @@ public class SinTrabaDBAdapter {
                 Department item = new Department();
                 item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_ID)));
                 item.setIdOrder(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_ID_ORDER)));
-                item.setNameSpa(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_NAME)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_NAME)));
                 item.setImageAddress(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_IMAGE_ADDRESS)));
                 itemDB = item;
             }
@@ -137,7 +137,7 @@ public class SinTrabaDBAdapter {
                     Department item = new Department();
                     item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_ID)));
                     item.setIdOrder(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_ID_ORDER)));
-                    item.setNameSpa(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_NAME)));
+                    item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_NAME)));
                     item.setImageAddress(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.DEPARTMENT_IMAGE_ADDRESS)));
                     itemDB = item;
                 }

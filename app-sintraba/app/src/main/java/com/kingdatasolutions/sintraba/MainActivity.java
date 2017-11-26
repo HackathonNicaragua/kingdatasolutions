@@ -1,5 +1,6 @@
 package com.kingdatasolutions.sintraba;
 
+import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,15 +17,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.kingdatasolutions.sintraba.activity.JobDetailActivity;
 import com.kingdatasolutions.sintraba.adapter.JobAdapter;
+import com.kingdatasolutions.sintraba.callback.GeneralLoadedListener;
 import com.kingdatasolutions.sintraba.data.SinTrabaDBAdapter;
 import com.kingdatasolutions.sintraba.datamodel.Department;
 import com.kingdatasolutions.sintraba.datamodel.Job;
 import com.kingdatasolutions.sintraba.datamodel.JobCategory;
 import com.kingdatasolutions.sintraba.datamodel.Setting;
 import com.kingdatasolutions.sintraba.fragment.MenuFragment;
+import com.kingdatasolutions.sintraba.task.TaskLoadGeneral;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -81,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         settingCategory = dbAdapter.getSetting("FILTERBYCATEGORY");
         settingDepartment = dbAdapter.getSetting("FILTERBYDESTINATIONDEPARTMENT");
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.destination_list);
-        mTextError = (TextView) findViewById(R.id.destination_error);
+        mRecyclerView = (RecyclerView) findViewById(R.id.job_list);
+        mTextError = (TextView) findViewById(R.id.job_error);
         mAdapter = new JobAdapter(SinTrabaApp.getAppContext());
         mAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
@@ -102,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         adapterDepartment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDepartment.setAdapter(adapterDepartment);
 
-        mListCategory =dbAdapter.getCategoryStringList();
+        mListCategory =dbAdapter.getJobCategoryStringList();
         adapterTheme = new ArrayAdapter(this, R.layout.custom_spinner_item, mListCategory);
         adapterTheme.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(adapterTheme);
@@ -243,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Department department = dbAdapter.getDepartmentByOrder(Integer.parseInt(settingDepartment.getValue()));
         spinnerDepartment.setSelection(adapterDepartment.getPosition(department.getName()));
 
-        Locale.Category category = dbAdapter.getCategory(Integer.parseInt(settingCategory.getValue()));
+        JobCategory category = dbAdapter.getJobCategory(Integer.parseInt(settingCategory.getValue()));
         spinnerCategory.setSelection(adapterTheme.getPosition(category.getName()));
     }
 
@@ -265,4 +276,46 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             spanCount = 2;
         return spanCount;
     }
+
+    @Override
+    public void onRefresh() {
+        //new TaskLoadGeneral(this).execute();
+    }
+
+    @Override
+    public void itemClicked(View view, int position) {
+        Job job;
+        if (mSearchViewActive == true) {
+            job = mListJobFilter.get(position);
+        } else {
+            job = mListJob.get(position);
+        }
+
+        Intent destinationDetail = new Intent(this, JobDetailActivity.class);
+        destinationDetail.putExtra("ID_JOB", job.getId());
+        startActivity(destinationDetail);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        /*
+        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+            mTextError.setText(R.string.error_timeout);
+
+        } else if (error instanceof AuthFailureError) {
+            mTextError.setText(R.string.error_auth_failure);
+            //TODO
+        } else if (error instanceof ServerError) {
+            mTextError.setText(R.string.error_auth_failure);
+            //TODO
+        } else if (error instanceof NetworkError) {
+            mTextError.setText(R.string.error_network);
+            //TODO
+        } else if (error instanceof ParseError) {
+            mTextError.setText(R.string.error_parser);
+            //TODO
+        }
+        */
+    }
 }
+

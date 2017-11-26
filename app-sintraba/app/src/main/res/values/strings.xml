@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">SinTraba</string>
     <string name="menu_job">Vacantes</string>
+    <string name="menu_event">Eventos</string>
+    <string name="menu_workshop">Talleres</string>
     <string name="menu_profile">Perfil</string>
     <string name="menu_information">Información</string>
     <string name="menu_setting">Configuración</string>
     <string name="drawer_open">Abrir</string>
     <string name="drawer_close">Cerrar</string>
+    <string name="error_network">Error</string>
 
 </resources>

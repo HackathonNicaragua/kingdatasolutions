@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D0F7FC"
+    android:background="@drawable/custom_background"
     tools:context="com.kingdatasolutions.sintraba.fragment.MenuFragment">
 
     <ImageView
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:scaleType="fitEnd"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/menu_background"
+        android:src="@drawable/custom_background"
         android:layout_marginBottom="0dp"
         android:contentDescription="Background"
         android:gravity="bottom|center_horizontal"

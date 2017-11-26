@@ -70,10 +70,8 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
         holder.subtitle.setText(department.getName());
 
         if (imageAddress.isEmpty()) {
-            holder.corner.setVisibility(View.VISIBLE);
             holder.image.setImageResource(R.drawable.job_detail_default);
         } else {
-            holder.corner.setVisibility(View.INVISIBLE);
             Uri uri = Uri.parse("http://" + imageAddress);
             ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
                     .setProgressiveRenderingEnabled(true)
@@ -101,7 +99,6 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
 
     class InfoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView corner;
         SimpleDraweeView image;
         TextView title;
         TextView subtitle;
@@ -111,7 +108,6 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
             super(itemView);
             itemView.setOnClickListener(this);
             cardView = (CardView) itemView.findViewById(R.id.job_card_view);
-            corner = (ImageView) itemView.findViewById(R.id.job_corner);
             image = (SimpleDraweeView) itemView.findViewById(R.id.job_image);
             title = (TextView) itemView.findViewById(R.id.job_title);
             subtitle = (TextView) itemView.findViewById(R.id.job_subtitle);

@@ -72,6 +72,89 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             SETTING_VALUE + " VARCHAR(255))";
     private static final String DROP_SETTING = "DROP TABLE  IF EXISTS " + TABLE_SETTING;
 
+    public void createDefaultDepartment(SQLiteDatabase db) {
+        String sql = "INSERT INTO " + TABLE_DEPARTMENT + " VALUES (?,?,?,?);";
+        SQLiteStatement statement = db.compileStatement(sql);
+        db.beginTransaction();
+        for (int i = 0; i < 4; i++) {
+            statement.clearBindings();
+            statement.bindLong(2, i);
+            if (i == 0) {
+                statement.bindLong(1, 1);
+                statement.bindLong(2, 1);
+                statement.bindString(3, "Managua");
+                statement.bindString(4, "");
+            } else if (i == 1) {
+                statement.bindLong(1, 2);
+                statement.bindLong(2, 2);
+                statement.bindString(3, "Granada");
+                statement.bindString(4, "");
+            } else if (i == 2) {
+                statement.bindLong(1, 3);
+                statement.bindLong(2, 3);
+                statement.bindString(3, "León");
+                statement.bindString(4, "");
+            } else if (i == 3) {
+                statement.bindLong(1, 4);
+                statement.bindLong(2, 4);
+                statement.bindString(3, "Rivas");
+                statement.bindString(4, "");
+            }
+            statement.execute();
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+    public void createDefaultCategory(SQLiteDatabase db) {
+        String sql = "INSERT INTO " + TABLE_JOB_CATEGORY + " VALUES (?,?,?);";
+        SQLiteStatement statement = db.compileStatement(sql);
+        db.beginTransaction();
+        for (int i = 0; i < 2; i++) {
+            statement.clearBindings();
+            statement.bindLong(2, i);
+            if (i == 0) {
+                statement.bindLong(1, 1);
+                statement.bindString(2, "Eléctrico");
+                statement.bindString(3, "");
+            } else if (i == 1) {
+                statement.bindLong(1, 2);
+                statement.bindString(2, "Mecánico");
+                statement.bindString(3, "");
+            }
+            statement.execute();
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+    public void createDefaultSettings(SQLiteDatabase db) {
+        String sql = "INSERT INTO " + TABLE_SETTING + " VALUES (?,?,?,?);";
+        SQLiteStatement statement = db.compileStatement(sql);
+        db.beginTransaction();
+        for (int i = 0; i < 4; i++) {
+            statement.clearBindings();
+            statement.bindLong(2, i);
+            if (i == 0) {
+                statement.bindString(3, "MAP_TYPE");
+                statement.bindString(4, "STANDARD");
+            } else if (i == 1) {
+                statement.bindString(3, "EMAIL");
+                statement.bindString(4, "nestor.bonilla.s@gmail.com");
+            } else if (i == 2) {
+                statement.bindString(3, "FILTERBYCATEGORY");
+                statement.bindString(4, "1");
+            } else if (i == 3) {
+                statement.bindString(3, "FILTERBYDEPARTMENT");
+                statement.bindString(4, "1");
+            }
+            statement.execute();
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
     private Context context;
 
     public SinTrabaDBHelper(Context context) {
@@ -87,6 +170,9 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_DEPARTMENT);
             db.execSQL(CREATE_JOB_CATEGORY);
             db.execSQL(CREATE_SETTING);
+            createDefaultSettings(db);
+            //createDefaultCategory(db);
+            //createDefaultDepartment(db);
         } catch (SQLException e) {
             Toast.makeText(context, "" + e, Toast.LENGTH_LONG).show();
         }

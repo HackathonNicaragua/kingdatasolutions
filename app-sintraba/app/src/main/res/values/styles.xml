@@ -9,7 +9,6 @@
         <item name="android:textColorPrimary">@color/colorHighlight</item>
         <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
         <item name="android:panelFullBackground">@drawable/ic_menu_background</item>
-        <item name="photoItemForeground">?android:selectableItemBackground</item>
     </style>
 
     <style name="ExploreItem.Category" parent="">

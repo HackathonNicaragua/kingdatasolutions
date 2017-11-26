@@ -23,13 +23,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_menu_header" />
 
-        <com.nestorjbonilla.nicaraguaintur.utility.CustomImageView
-            android:id="@+id/job_corner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitStart"
-            android:src="@drawable/corner_main_default" />
-
         <!-- Info box -->
         <FrameLayout
             android:layout_width="match_parent"

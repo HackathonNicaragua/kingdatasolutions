@@ -78,15 +78,15 @@ public class MenuFragment extends Fragment implements MenuAdapter.ClickListener 
     public List<MenuItem> getData() {
         List<MenuItem> data = new ArrayList<>();
         int[] icons = {
-                R.drawable.ic_menu_about,
-                R.drawable.ic_menu_about,
-                R.drawable.ic_menu_about,
-                R.drawable.ic_menu_about
+                R.drawable.ic_menu_job,
+                R.drawable.ic_menu_event,
+                R.drawable.ic_menu_workshop,
+                R.drawable.ic_menu_setting
         };
         String[] titles = {
                 getString(R.string.menu_job),
-                getString(R.string.menu_profile),
-                getString(R.string.menu_information),
+                getString(R.string.menu_event),
+                getString(R.string.menu_workshop),
                 getString(R.string.menu_setting)
         };
         for (int i = 0; i < icons.length && i < titles.length; i++) {

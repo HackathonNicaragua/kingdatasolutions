@@ -55,7 +55,7 @@ public class Department implements Parcelable {
         return name;
     }
 
-    public void setNameSpa(String name_spa) {
+    public void setName(String name) {
         this.name = name;
     }
 

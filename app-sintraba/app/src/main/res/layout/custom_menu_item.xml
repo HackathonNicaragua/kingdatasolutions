@@ -3,7 +3,8 @@
     android:id="@+id/menu_item"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@drawable/custom_bg"
+    android:layout_marginLeft="32dp"
+    android:background="@drawable/custom_background"
     android:clickable="true"
     android:orientation="horizontal">
     <ImageView
@@ -14,16 +15,18 @@
         android:layout_marginRight="16dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="false"
-        android:tint="#EC407A"
+        android:tint="@color/whiteColor"
         android:src="@drawable/ic_menu_job"/>
     <TextView
         android:id="@+id/list_text"
+        android:textSize="18dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="72dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="false"
-        android:textColor="#EC407A"
+        android:textColor="@color/whiteColor"
+        android:tint="@color/whiteColor"
         android:layout_gravity="center_vertical"
         android:text="Menu Item"/>
 </RelativeLayout>

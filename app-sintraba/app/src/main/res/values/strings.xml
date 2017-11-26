@@ -9,5 +9,7 @@
     <string name="drawer_open">Abrir</string>
     <string name="drawer_close">Cerrar</string>
     <string name="error_network">Error</string>
+    <string name="please_wait">Por favor espere</string>
+    <string name="first_load">Descargando datos iniciales...</string>
 
 </resources>

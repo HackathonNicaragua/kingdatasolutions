@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.kingdatasolutions.sintraba.SinTrabaApp;
 import com.kingdatasolutions.sintraba.datamodel.Department;
+import com.kingdatasolutions.sintraba.datamodel.Job;
 import com.kingdatasolutions.sintraba.datamodel.JobCategory;
 import com.kingdatasolutions.sintraba.datamodel.Setting;
 
@@ -155,6 +156,83 @@ public class SinTrabaDBAdapter {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         int count = db.delete(SinTrabaDBHelper.TABLE_DEPARTMENT, null, null);
         return count;
+    }
+
+    //------------------------------->JOB
+
+    public void fillJob(ArrayList<Job> data) {
+        deleteJobCategory();
+        String sql = "INSERT INTO " + SinTrabaDBHelper.TABLE_JOB + " VALUES (?,?,?,?,?,?);";
+        SQLiteStatement statement = mDatabase.compileStatement(sql);
+        mDatabase.beginTransaction();
+        for (int i = 0; i < data.size(); i++) {
+            Job item = data.get(i);
+            statement.clearBindings();
+            statement.bindLong(1, item.getId());
+            statement.bindLong(2, item.getIdCategory());
+            statement.bindLong(3, item.getIdDepartment());
+            statement.bindLong(4, item.getIdCompany());
+            statement.bindString(5, item.getName());
+            statement.bindString(6, item.getDescription());
+
+            statement.execute();
+        }
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
+    }
+
+    public ArrayList<Job> getJobList() {
+
+        ArrayList<Job> listItem = new ArrayList<>();
+        Job item = new Job();
+        for (int i = 0; i < 2; i++) {
+            item = new Job();
+            item.setId(i);
+
+            if (i == 0) {
+                item.setIdCategory(1);
+                item.setIdDepartment(1);
+                item.setIdCompany(1);
+                item.setName("Técnico mecánico automotriz");
+                item.setDescription("Se requiere mecánico automotriz con certificación en ...");
+            } else if (i == 1) {
+                item.setIdCategory(2);
+                item.setIdDepartment(2);
+                item.setIdCompany(2);
+                item.setName("Técnico en refrigeración");
+                item.setDescription("Se requiere mecánico automotriz con certificación en ...");
+            }
+        }
+        listItem.add(item);
+        return  listItem;
+        /*
+        ArrayList<Job> listItem = new ArrayList<>();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        String[] columns = {
+                SinTrabaDBHelper.JOB_ID,
+                SinTrabaDBHelper.JOB_ID_CATEGORY,
+                SinTrabaDBHelper.JOB_ID_DEPARTMENT,
+                SinTrabaDBHelper.JOB_ID_COMPANY,
+                SinTrabaDBHelper.JOB_NAME,
+                SinTrabaDBHelper.JOB_DESCRIPTION
+        };
+
+        Cursor cursor = db.query(SinTrabaDBHelper.TABLE_JOB, columns, null, null, null, null, SinTrabaDBHelper.JOB_CATEGORY_ID + " ASC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Job item = new Job();
+                item.setId(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_ID)));
+                item.setIdCategory(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_ID_CATEGORY)));
+                item.setIdDepartment(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_ID_DEPARTMENT)));
+                item.setIdCompany(cursor.getInt(cursor.getColumnIndex(SinTrabaDBHelper.JOB_ID_COMPANY)));
+                item.setName(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_NAME)));
+                item.setDescription(cursor.getString(cursor.getColumnIndex(SinTrabaDBHelper.JOB_DESCRIPTION)));
+                listItem.add(item);
+            }
+            while (cursor.moveToNext());
+        }
+        return listItem;
+        */
     }
 
     //------------------------------->JOB CATEGORY

@@ -20,6 +20,7 @@ import com.kingdatasolutions.sintraba.SinTrabaApp;
 import com.kingdatasolutions.sintraba.data.SinTrabaDBAdapter;
 import com.kingdatasolutions.sintraba.datamodel.Department;
 import com.kingdatasolutions.sintraba.datamodel.Job;
+import com.kingdatasolutions.sintraba.logging.L;
 import com.kingdatasolutions.sintraba.network.VolleySingleton;
 
 import java.util.ArrayList;
@@ -63,14 +64,17 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     @Override
     public void onBindViewHolder(JobViewHolder holder, int position) {
         Job current = mData.get(position);
+        L.m("department " + current.getIdDepartment());
         Department department = dbAdapter.getDepartment(current.getIdDepartment());
+        L.m("job name " + current.getName());
+        L.m("department name " + department.getName());
         //String imageAddress = dbAdapter.getPhotoMainImageAddress(current.getId());
         String imageAddress = "";
-        holder.title.setText(current.getName());
-        holder.subtitle.setText(department.getName());
+        holder.title.setText(current.getName() + "");
+        //holder.subtitle.setText(department.getName() + "");
 
         if (imageAddress.isEmpty()) {
-            holder.image.setImageResource(R.drawable.job_detail_default);
+            //holder.image.setImageResource(R.drawable.job_detail_default);
         } else {
             Uri uri = Uri.parse("http://" + imageAddress);
             ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
@@ -110,7 +114,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             cardView = (CardView) itemView.findViewById(R.id.job_card_view);
             image = (SimpleDraweeView) itemView.findViewById(R.id.job_image);
             title = (TextView) itemView.findViewById(R.id.job_title);
-            subtitle = (TextView) itemView.findViewById(R.id.job_subtitle);
+            //subtitle = (TextView) itemView.findViewById(R.id.job_subtitle);
         }
 
         @Override

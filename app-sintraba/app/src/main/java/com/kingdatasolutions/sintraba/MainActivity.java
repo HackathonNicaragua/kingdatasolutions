@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private int toRefresh = 0;
     private JobCategory jobCategoryActive;
     private KProgressHUD hud;
+    private JobCategory categoryActive;
 
     ArrayAdapter adapterDepartment;
     ArrayAdapter adapterTheme;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         dbAdapter = new SinTrabaDBAdapter(SinTrabaApp.getAppContext());
         Log.d("UPDATEAPP", "ONCREATE");
         settingCategory = dbAdapter.getSetting("FILTERBYCATEGORY");
-        settingDepartment = dbAdapter.getSetting("FILTERBYDESTINATIONDEPARTMENT");
+        settingDepartment = dbAdapter.getSetting("FILTERBYDEPARTMENT");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.job_list);
         mTextError = (TextView) findViewById(R.id.job_error);
@@ -104,6 +105,52 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 return mAdapter.isPositionHeader(position) ? layoutManager.getSpanCount() : 1;
             }
         });
+
+        categoryActive = dbAdapter.getJobCategory(Integer.parseInt(settingCategory.getValue()));
+        mRecyclerView.setLayoutManager(layoutManager);
+        mListJobFilter = new ArrayList<Job>();
+
+        spinnerDepartment = (AppCompatSpinner) findViewById(R.id.spinner_a);
+        spinnerCategory = (AppCompatSpinner) findViewById(R.id.spinner_b);
+
+        assignFilters();
+
+        if (savedInstanceState != null) {
+            mListJob = savedInstanceState.getParcelableArrayList(STATE_JOB);
+            mListJobComplete = savedInstanceState.getParcelableArrayList(STATE_JOB_COMPLETE);
+        } else {
+            mListJobComplete = dbAdapter.getJobList();
+            if (categoryActive.getId() == 1) {
+                mListJob = dbAdapter.getJobList();
+            } else {
+                //mListJob = dbAdapter.getJobList(categoryActive.getId());
+                if (categoryActive.getId() > 0) {
+                        mToolbar.setSubtitle(getString(R.string.menu_job) + " - " + categoryActive.getName());
+
+                } else {
+                    mToolbar.setSubtitle(getString(R.string.menu_job));
+                }
+            }
+
+            if (mListJobComplete.isEmpty()) {
+                mToolbar.setSubtitle(getString(R.string.menu_job));
+                hud = KProgressHUD.create(MainActivity.this)
+                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                        .setLabel(getString(R.string.please_wait))
+                        .setDetailsLabel(getString(R.string.first_load))
+                        .setCancellable(true)
+                        .setAnimationSpeed(2)
+                        .setDimAmount(0.5f);
+                hud.show();
+                //Log.d("some3", "calling general task");
+                //new TaskLoadGeneral(this).execute();
+            }
+
+        }
+        //update your Adapter to contain the retrieved destinations
+
+        mAdapter.setData(mListJob);
+        mSearchViewActive = false;
     }
 
     public void assignFilters() {
@@ -122,14 +169,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 pos = pos + 1;
-                dbAdapter.updateSetting("FILTERBYDESTINATIONDEPARTMENT", pos + "");
+                dbAdapter.updateSetting("FILTERBYDEPARTMENT", pos + "");
                 mListJob.clear();
                 Job job;
                 boolean toAddString = false;
                 boolean toAddTheme = false;
                 boolean toAddDepartment = false;
-                settingCategory = dbAdapter.getSetting("FILTERBYTHEME");
-                settingDepartment = dbAdapter.getSetting("FILTERBYDESTINATIONDEPARTMENT");
+                settingCategory = dbAdapter.getSetting("FILTERBYCATEGORY");
+                settingDepartment = dbAdapter.getSetting("FILTERBYDEPARTMENT");
                 int idCategory = Integer.parseInt(settingCategory.getValue());
 
                 for (int x = 0; x < mListJobComplete.size(); x++) {

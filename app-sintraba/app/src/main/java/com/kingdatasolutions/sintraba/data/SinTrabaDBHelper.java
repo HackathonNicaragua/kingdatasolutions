@@ -18,12 +18,16 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_JOB = "job";
     public static final String JOB_ID = "_id";
+    public static final String JOB_ID_CATEGORY = "id_category";
+    public static final String JOB_ID_DEPARTMENT = "id_department";
+    public static final String JOB_ID_COMPANY = "id_company";
     public static final String JOB_NAME = "name";
-    public static final String JOB_MUNICIPALLITY = "id_municipality";
     public static final String JOB_DESCRIPTION = "job_description";
     private static final String CREATE_JOB = "CREATE TABLE " + TABLE_JOB + " ( " +
             JOB_ID + " INTEGER PRIMARY KEY, " +
-            JOB_MUNICIPALLITY + " INTEGER, " +
+            JOB_ID_CATEGORY + " INTEGER, " +
+            JOB_ID_DEPARTMENT + " INTEGER, " +
+            JOB_ID_COMPANY + " INTEGER, " +
             JOB_NAME + " VARCHAR(255), " +
             JOB_DESCRIPTION + " VARCHAR(255))";
     private static final String DROP_JOB = "DROP TABLE  IF EXISTS " + TABLE_JOB;
@@ -75,7 +79,7 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
     public void createDefaultDepartment(SQLiteDatabase db) {
         String sql = "INSERT INTO " + TABLE_DEPARTMENT + " VALUES (?,?,?,?);";
         SQLiteStatement statement = db.compileStatement(sql);
-        db.beginTransaction();
+        //db.beginTransaction();
         for (int i = 0; i < 4; i++) {
             statement.clearBindings();
             statement.bindLong(2, i);
@@ -102,14 +106,14 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             }
             statement.execute();
         }
-        db.setTransactionSuccessful();
-        db.endTransaction();
+        //db.setTransactionSuccessful();
+        //db.endTransaction();
     }
 
     public void createDefaultCategory(SQLiteDatabase db) {
         String sql = "INSERT INTO " + TABLE_JOB_CATEGORY + " VALUES (?,?,?);";
         SQLiteStatement statement = db.compileStatement(sql);
-        db.beginTransaction();
+        //db.beginTransaction();
         for (int i = 0; i < 2; i++) {
             statement.clearBindings();
             statement.bindLong(2, i);
@@ -124,14 +128,14 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             }
             statement.execute();
         }
-        db.setTransactionSuccessful();
-        db.endTransaction();
+        //db.setTransactionSuccessful();
+        //db.endTransaction();
     }
 
     public void createDefaultSettings(SQLiteDatabase db) {
         String sql = "INSERT INTO " + TABLE_SETTING + " VALUES (?,?,?,?);";
         SQLiteStatement statement = db.compileStatement(sql);
-        db.beginTransaction();
+        //db.beginTransaction();
         for (int i = 0; i < 4; i++) {
             statement.clearBindings();
             statement.bindLong(2, i);
@@ -151,8 +155,8 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             statement.execute();
         }
 
-        db.setTransactionSuccessful();
-        db.endTransaction();
+        //db.setTransactionSuccessful();
+        //db.endTransaction();
     }
 
     private Context context;
@@ -171,8 +175,8 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_JOB_CATEGORY);
             db.execSQL(CREATE_SETTING);
             createDefaultSettings(db);
-            //createDefaultCategory(db);
-            //createDefaultDepartment(db);
+            createDefaultCategory(db);
+                createDefaultDepartment(db);
         } catch (SQLException e) {
             Toast.makeText(context, "" + e, Toast.LENGTH_LONG).show();
         }

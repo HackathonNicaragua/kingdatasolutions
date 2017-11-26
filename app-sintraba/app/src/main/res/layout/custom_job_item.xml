@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
-                android:paddingLeft="8dp"
+                android:paddingLeft="20dp"
                 android:textColor="@color/colorAccentText"
                 android:text="MECANICA"/>
         </LinearLayout>

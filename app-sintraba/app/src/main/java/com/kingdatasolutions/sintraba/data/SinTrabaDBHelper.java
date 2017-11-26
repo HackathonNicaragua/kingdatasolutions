@@ -176,7 +176,7 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_SETTING);
             createDefaultSettings(db);
             createDefaultCategory(db);
-                createDefaultDepartment(db);
+            createDefaultDepartment(db);
         } catch (SQLException e) {
             Toast.makeText(context, "" + e, Toast.LENGTH_LONG).show();
         }

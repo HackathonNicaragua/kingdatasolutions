@@ -185,7 +185,7 @@ public class SinTrabaDBAdapter {
 
         ArrayList<Job> listItem = new ArrayList<>();
         Job item = new Job();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             item = new Job();
             item.setId(i);
 
@@ -201,9 +201,16 @@ public class SinTrabaDBAdapter {
                 item.setIdCompany(2);
                 item.setName("Técnico en refrigeración");
                 item.setDescription("Se requiere mecánico automotriz con certificación en ...");
+            } else if (i == 2) {
+                item.setIdCategory(3);
+                item.setIdDepartment(2);
+                item.setIdCompany(3);
+                item.setName("Técnico en refrigeración");
+                item.setDescription("Se requiere mecánico automotriz con certificación en ...");
             }
+            listItem.add(item);
         }
-        listItem.add(item);
+
         return  listItem;
         /*
         ArrayList<Job> listItem = new ArrayList<>();

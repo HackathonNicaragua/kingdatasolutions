@@ -1,6 +1,8 @@
 package com.kingdatasolutions.sintraba;
 
+import android.app.SearchManager;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -89,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         menuFragment.setUp(R.id.fragment_menu, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
 
         dbAdapter = new SinTrabaDBAdapter(SinTrabaApp.getAppContext());
-        Log.d("UPDATEAPP", "ONCREATE");
         settingCategory = dbAdapter.getSetting("FILTERBYCATEGORY");
         settingDepartment = dbAdapter.getSetting("FILTERBYDEPARTMENT");
 
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mAdapter = new JobAdapter(SinTrabaApp.getAppContext());
         mAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
-        final GridLayoutManager layoutManager = new GridLayoutManager(SinTrabaApp.getAppContext(), columnsQuantity());
+        final GridLayoutManager layoutManager = new GridLayoutManager(SinTrabaApp.getAppContext(), 1);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -315,13 +318,59 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onResume();
     }
 
-    protected int columnsQuantity() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int spanCount = Math.max(1, metrics.widthPixels / 700);
-        if (spanCount == 1)
-            spanCount = 2;
-        return spanCount;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.destination_action_search));
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        SearchView.OnCloseListener closeListener = new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mSearchViewActive = false;
+                return false;
+            }
+        };
+        searchView.setOnCloseListener(closeListener);
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mListJobFilter.clear();
+                Job job;
+                for(int x = 0; x < mListJob.size(); x++){
+                    job = mListJob.get(x);
+                    if (job.getName().toLowerCase().contains(newText)) {
+                        mListJobFilter.add(job);
+                    }
+                }
+                mAdapter.setData(mListJobFilter);
+                mSearchViewActive = true;
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // this is your adapter that will be filtered
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        //if (id == R.id.destination_action_filter) {
+        //    Intent themeIntent = new Intent(this, ThemeActivity.class);
+        //    startActivityForResult(themeIntent, toRefresh);
+        //    return true;
+        //}
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

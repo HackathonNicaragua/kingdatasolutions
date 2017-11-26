@@ -199,7 +199,7 @@ public class SinTrabaDBAdapter {
                 item.setIdCategory(2);
                 item.setIdDepartment(2);
                 item.setIdCompany(2);
-                item.setName("Técnico en refrigeración");
+                item.setName("Técnico electricista");
                 item.setDescription("Se requiere mecánico automotriz con certificación en ...");
             } else if (i == 2) {
                 item.setIdCategory(3);

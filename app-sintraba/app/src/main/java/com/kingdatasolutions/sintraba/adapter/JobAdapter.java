@@ -1,6 +1,7 @@
 package com.kingdatasolutions.sintraba.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.common.util.UriUtil;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.kingdatasolutions.sintraba.R;
@@ -73,6 +75,28 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         holder.title.setText(current.getName() + "");
         //holder.subtitle.setText(department.getName() + "");
 
+        if (current.getId() == 1) {
+            //holder.image.setImageResource(R.drawable.job_default);
+
+            Uri uri = new Uri.Builder()
+                    .scheme(UriUtil.LOCAL_RESOURCE_SCHEME) // "res"
+                    .path(String.valueOf(R.drawable.job_electrical_default))
+                    .build();
+            holder.image.setImageURI(uri);
+
+            //Uri image =  Uri.parse("res:///" + R.drawable.job_default);
+            //holder.image.setBackground(image);
+        } else if (current.getId() == 2) {
+
+            Uri uri = new Uri.Builder()
+                    .scheme(UriUtil.LOCAL_RESOURCE_SCHEME) // "res"
+                    .path(String.valueOf(R.drawable.job_electrical_default))
+                    .build();
+            holder.image.setImageURI(uri);
+
+            //holder.image.setImageResource(R.drawable.job_electrical_default);
+        }
+        /*
         if (imageAddress.isEmpty()) {
             //holder.image.setImageResource(R.drawable.job_detail_default);
         } else {
@@ -86,6 +110,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
                     .build();
             holder.image.setController(controller);
         }
+        */
     }
 
     public boolean isPositionHeader(int position) {

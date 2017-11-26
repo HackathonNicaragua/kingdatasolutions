@@ -80,18 +80,18 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
         String sql = "INSERT INTO " + TABLE_DEPARTMENT + " VALUES (?,?,?,?);";
         SQLiteStatement statement = db.compileStatement(sql);
         //db.beginTransaction();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             statement.clearBindings();
             statement.bindLong(2, i);
             if (i == 0) {
                 statement.bindLong(1, 1);
                 statement.bindLong(2, 1);
-                statement.bindString(3, "Managua");
+                statement.bindString(3, "Departamento");
                 statement.bindString(4, "");
             } else if (i == 1) {
                 statement.bindLong(1, 2);
                 statement.bindLong(2, 2);
-                statement.bindString(3, "Granada");
+                statement.bindString(3, "Managua");
                 statement.bindString(4, "");
             } else if (i == 2) {
                 statement.bindLong(1, 3);
@@ -102,6 +102,11 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
                 statement.bindLong(1, 4);
                 statement.bindLong(2, 4);
                 statement.bindString(3, "Rivas");
+                statement.bindString(4, "");
+            } else if (i == 4) {
+                statement.bindLong(1, 5);
+                statement.bindLong(2, 5);
+                statement.bindString(3, "Granada");
                 statement.bindString(4, "");
             }
             statement.execute();
@@ -114,15 +119,19 @@ public class SinTrabaDBHelper extends SQLiteOpenHelper {
         String sql = "INSERT INTO " + TABLE_JOB_CATEGORY + " VALUES (?,?,?);";
         SQLiteStatement statement = db.compileStatement(sql);
         //db.beginTransaction();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             statement.clearBindings();
             statement.bindLong(2, i);
             if (i == 0) {
                 statement.bindLong(1, 1);
-                statement.bindString(2, "Eléctrico");
+                statement.bindString(2, "Categoría");
                 statement.bindString(3, "");
             } else if (i == 1) {
                 statement.bindLong(1, 2);
+                statement.bindString(2, "Eléctrico");
+                statement.bindString(3, "");
+            } else if (i == 2) {
+                statement.bindLong(1, 3);
                 statement.bindString(2, "Mecánico");
                 statement.bindString(3, "");
             }

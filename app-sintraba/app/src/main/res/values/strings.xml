@@ -12,4 +12,14 @@
     <string name="please_wait">Por favor espere</string>
     <string name="first_load">Descargando datos iniciales...</string>
 
+    <!--    Share    -->
+    <string name="share_text_1">Mira la nueva vacante</string>
+    <string name="share_text_2">y muchas más en la nueva app para la educación técnica en Nicaragua, SinTraba!</string>
+    <string name="share_text_3">Descubre más en </string>
+    <string name="share_text_4">Descarga el app en </string>
+    <string name="share_text_android">http://bit.ly/sintraba-android</string>
+    <string name="more_apps">Más apps</string>
+    <string name="rate_app">Califica a SinTraba</string>
+    <string name="contact">Contacto</string>
 </resources>
+
